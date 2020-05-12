@@ -1,5 +1,8 @@
-import Credentials from '../model/credentials';
-import Users from '../model/users';
+import {User} from '../model/user-model';
+import {
+  Credentials,
+  AuthenticationResponse,
+} from '../model/authentication-model';
 
 export default {
   login,
@@ -7,16 +10,26 @@ export default {
   logout,
 };
 
-function login(credentials: Credentials) {
-  console.log('api called');
-  return fetch(`${process.env.REACT_APP_SERVER_URL}authentication/login`, {
-    method: 'post',
-    body: JSON.stringify(credentials),
-  });
-  // return fetch({method: 'post', url: `users/authenticate`});
+async function login(
+  credentials: Credentials
+): Promise<AuthenticationResponse> {
+  const response = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}authentication/login`,
+    {
+      method: 'post',
+      body: JSON.stringify(credentials),
+      headers: {'Content-Type': 'application/json'},
+    }
+  );
+  const res = await response.json();
+
+  if (!response.ok) {
+    return Promise.reject(res);
+  }
+  return res;
 }
 
-function register(user: Users) {
+function register(user: User) {
   // return httpService.postMethod('users/register', user);
 }
 

@@ -1,5 +1,9 @@
 import authenticationService from '../services/authenticationService';
-import Credentials from '../model/credentials';
+import {
+  Credentials,
+  AuthenticationResponse,
+} from '../model/authentication-model';
+import {ToasterType} from '../helpers/enum';
 import {storageService} from '../services/storageService';
 
 const loginUser = (credentials: Credentials) => {
@@ -7,21 +11,24 @@ const loginUser = (credentials: Credentials) => {
     dispatch({type: 'AUTHENTICATING_INITIALIZED', payload: credentials});
     authenticationService
       .login(credentials)
-      .then((response: any) => {
-        console.log(response);
+      .then((response: AuthenticationResponse) => {
+        storageService.storeData('security', JSON.stringify(response));
+        dispatch({
+          type: 'AUTHENTICATING_SUCCEEDED',
+          payload: {message: 'success', type: ToasterType.Success},
+        });
       })
-      .catch((err: any) => {
-        console.log(err);
-        // dispatch({
-        //   type: 'AUTHENTICATING_FAILED',
-        //   payload: {error: err.message},
-        // });
+      .catch((err: Error) => {
+        dispatch({
+          type: 'CREATE_NOTIFICATION_REQUESTED',
+          payload: {message: err.message, type: ToasterType.Error},
+        });
+        dispatch({
+          type: 'AUTHENTICATING_FAILED',
+          payload: {error: err.message},
+        });
       });
   };
 };
 
 export default {loginUser};
-
-// console.log(res.data.login.token);
-// localStorage.setItem('access_token', res.data.login.token);
-// dispatch({type: 'AUTHENTICATING_SUCCEEDED', payload: {users: res.data.login}});

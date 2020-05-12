@@ -4,12 +4,12 @@ export const storageService = {
   removeData,
 };
 
-function storeData(key: string, data: String) {
-  sessionStorage.setItem(key, JSON.stringify(data));
+function storeData(key: string, data: string = '') {
+  sessionStorage.setItem(key, data);
 }
 
 function getData(key: string) {
-  return JSON.parse(sessionStorage.getItem(key) || 'null');
+  return sessionStorage.getItem(key);
 }
 
 function removeData(key: string) {

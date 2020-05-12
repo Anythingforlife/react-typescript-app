@@ -1,7 +1,7 @@
 import React from 'react';
 import {gql} from 'apollo-boost';
 import {useQuery} from '@apollo/react-hooks';
-import Employee from '../../model/employee';
+import Employee from '../../model/employee-model';
 
 const GET_EMPLOYEE_LIST = gql`
   query($currentPage: Int!, $perPage: Int!) {
