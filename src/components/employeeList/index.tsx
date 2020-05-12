@@ -32,31 +32,29 @@ export default function EmployeeList() {
 
   if (data) {
     return (
-      <div>
-        <div className="container mt 4">
-          <table className="table table-sm">
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Salary</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.getEmployees.data.map((item: Employee, i: number) => {
-                return (
-                  <tr key={item.id}>
-                    <th>{item.id}</th>
-                    <td>{item.employee_name}</td>
-                    <td>{item.employee_age}</td>
-                    <td>{item.employee_salary}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+      <div className="container mt-4">
+        <table className="table-sm table table-bordered">
+          <thead className="thead-light">
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Salary</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.getEmployees.data.map((item: Employee, i: number) => {
+              return (
+                <tr key={item.id}>
+                  <th>{item.id}</th>
+                  <td>{item.employee_name}</td>
+                  <td>{item.employee_age}</td>
+                  <td>{item.employee_salary}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     );
   }

@@ -31,6 +31,8 @@ export default (state = initialState, action: Action) => {
         isLogin: false,
         error: action.payload.error,
       });
+    case 'LOGOUT_SESSION':
+      return state.merge(initialState);
     default:
       return state;
   }

@@ -7,5 +7,5 @@ export interface Action<T = any> {
 
 export interface State<T = any> extends DefaultRootState {
   authentication: T;
-  notifications: T;
+  app: T;
 }

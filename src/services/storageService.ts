@@ -9,7 +9,7 @@ function storeData(key: string, data: string = '') {
 }
 
 function getData(key: string) {
-  return sessionStorage.getItem(key);
+  return JSON.parse(sessionStorage.getItem(key) as string);
 }
 
 function removeData(key: string) {
