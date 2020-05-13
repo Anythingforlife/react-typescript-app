@@ -5,4 +5,6 @@ export interface User {
   email: String;
   password: String;
   role: String;
+  username?: String;
+  confirmPassword?: String;
 }
