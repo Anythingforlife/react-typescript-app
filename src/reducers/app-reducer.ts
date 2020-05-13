@@ -11,11 +11,11 @@ export default (state = initialState, action: Action) => {
   switch (action.type) {
     case 'CREATE_TOASTER_REQUESTED':
       return state.merge({
-        message: action.payload.message,
-        type: action.payload.type,
+        toasterMessage: action.payload.message,
+        toasterType: action.payload.type,
       });
     case 'CLEAR_TOASTER_REQUESTED':
-      return state.merge({message: null, type: null});
+      return state.merge({toasterMessage: null, toasterType: null});
     case 'SHOW_LOADER':
       return state.merge({loaderVisible: true});
     case 'HIDE_LOADER':

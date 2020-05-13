@@ -1,8 +1,10 @@
-import {User} from '../model/user-model';
 import {
   Credentials,
   AuthenticationResponse,
+  RegistrationModel,
 } from '../model/authentication-model';
+import {storageService} from './storageService';
+import {SuccessResponse} from '../model/common';
 
 export default {
   login,
@@ -26,13 +28,27 @@ async function login(
   if (!response.ok) {
     return Promise.reject(res);
   }
+
   return res;
 }
 
-function register(user: User) {
-  // return httpService.postMethod('users/register', user);
+async function register(data: RegistrationModel): Promise<SuccessResponse> {
+  const response = await fetch(
+    `${process.env.REACT_APP_SERVER_URL}authentication/register`,
+    {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {'Content-Type': 'application/json'},
+    }
+  );
+  const res = await response.json();
+
+  if (!response.ok) {
+    return Promise.reject(res);
+  }
+  return res;
 }
 
 function logout() {
-  // storageService.removeData('user');
+  storageService.removeData('security');
 }
