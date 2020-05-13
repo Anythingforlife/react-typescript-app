@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Form, Label, FormGroup, Input, FormText, Button} from 'reactstrap';
-import {Link, Redirect} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 import authentication from '../../actions/authentication';
 
 export default function LoginComponent() {

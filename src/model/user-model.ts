@@ -1,4 +1,4 @@
-export default interface Users {
+export interface User {
   id?: number;
   firstName: String;
   lastName: String;

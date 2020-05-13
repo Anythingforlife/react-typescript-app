@@ -1,27 +1,44 @@
 import authenticationService from '../services/authenticationService';
-import Credentials from '../model/credentials';
+import {
+  Credentials,
+  AuthenticationResponse,
+} from '../model/authentication-model';
+import {ToasterType} from '../_helpers/enum';
 import {storageService} from '../services/storageService';
 
 const loginUser = (credentials: Credentials) => {
   return (dispatch: Function) => {
+    dispatch({type: 'SHOW_LOADER'});
     dispatch({type: 'AUTHENTICATING_INITIALIZED', payload: credentials});
     authenticationService
       .login(credentials)
-      .then((response: any) => {
-        console.log(response);
+      .then((response: AuthenticationResponse) => {
+        storageService.storeData('security', JSON.stringify(response));
+        dispatch({type: 'HIDE_LOADER'});
+        dispatch({
+          type: 'AUTHENTICATING_SUCCEEDED',
+          payload: {message: 'success', type: ToasterType.Success},
+        });
       })
-      .catch((err: any) => {
-        console.log(err);
-        // dispatch({
-        //   type: 'AUTHENTICATING_FAILED',
-        //   payload: {error: err.message},
-        // });
+      .catch((err: Error) => {
+        dispatch({type: 'HIDE_LOADER'});
+        dispatch({
+          type: 'CREATE_NOTIFICATION_REQUESTED',
+          payload: {message: err.message, type: ToasterType.Error},
+        });
+        dispatch({
+          type: 'AUTHENTICATING_FAILED',
+          payload: {error: err.message},
+        });
       });
   };
 };
 
-export default {loginUser};
+const logoutSession = () => {
+  return (dispatch: Function) => {
+    sessionStorage.removeItem('security');
+    dispatch({type: 'LOGOUT_SESSION'});
+  };
+};
 
-// console.log(res.data.login.token);
-// localStorage.setItem('access_token', res.data.login.token);
-// dispatch({type: 'AUTHENTICATING_SUCCEEDED', payload: {users: res.data.login}});
+export default {loginUser, logoutSession};
